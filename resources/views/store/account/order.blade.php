@@ -1,0 +1,5 @@
+@extends('store.layout')
+@section('title', 'Order '.$order->order_number.' | Royaltech')
+@section('content')
+<section class="mx-auto max-w-4xl px-4 py-12 sm:px-6"><a href="{{ route('account.orders') }}" class="text-sm font-semibold text-blue-800">← Your orders</a><h1 class="mt-3 font-display text-3xl font-extrabold text-[#142b50]">{{ $order->order_number }}</h1><p class="mt-2 text-sm text-slate-600">{{ str_replace('_', ' ', ucfirst($order->status)) }} · {{ ucfirst($order->payment_status) }}</p><div class="mt-6 rounded-xl border border-slate-200 bg-white p-5"><ul class="divide-y divide-slate-100">@foreach($order->items as $item)<li class="flex justify-between gap-4 py-3 text-sm"><span>{{ $item->product_name }} × {{ $item->quantity }}</span><span>KES {{ number_format((float) $item->line_total, 2) }}</span></li>@endforeach</ul><p class="mt-4 border-t pt-4 text-right font-bold">Subtotal: KES {{ number_format((float) $order->subtotal, 2) }}</p><p class="mt-4 text-sm text-slate-600">No payment has been taken. The team will confirm your order and payment options.</p></div></section>
+@endsection

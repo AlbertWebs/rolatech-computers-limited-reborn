@@ -1,0 +1,5 @@
+@extends('store.layout')
+@section('title', 'The company | Royaltech Computers Limited')
+@section('content')
+<section class="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8"><p class="text-xs font-bold uppercase tracking-[.15em] text-blue-700">About Royaltech</p><h1 class="mt-2 font-display text-4xl font-extrabold text-[#142b50]">Technology for work and home</h1><div class="mt-6 max-w-3xl space-y-5 text-base leading-8 text-slate-600"><p>Royaltech Computers Limited is a Nairobi-based technology solutions company serving individuals, small and medium businesses, and corporate teams across Kenya.</p><p>Our work brings together computer sales and sourcing, equipment hire, networking, and practical IT support. We help customers choose and use technology that fits the work they need to do.</p><p>Visit or contact our team at Biashara Street, Revlon Professional Plaza, Nairobi.</p></div><a href="{{ route('contact') }}" class="mt-8 inline-flex rounded-lg bg-blue-800 px-5 py-3 font-bold text-white hover:bg-blue-900">Talk to Royaltech</a></section>
+@endsection

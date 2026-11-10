@@ -1,0 +1,28 @@
+@extends('store.layout')
+
+@section('title', ($heading ? $heading.' | ' : '').'Shop Computers & Accessories | Royaltech Kenya')
+@if (request()->routeIs('catalog.brand')) @section('canonical', route('catalog.brand', request()->route('slug'))) @elseif (request()->routeIs('catalog.category')) @section('canonical', route('catalog.category', request()->route('slug'))) @else @section('canonical', route('catalog.index')) @endif
+@if (request()->query()) @push('head')<meta name="robots" content="noindex,follow">@endpush @endif
+
+@section('content')
+    <div class="bg-slate-50"><div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8"><nav class="text-xs text-slate-500" aria-label="Breadcrumb"><a href="{{ route('home') }}" class="hover:text-blue-800">Home</a><span class="px-2">/</span><span class="text-slate-800">Shop</span></nav><div class="mt-5 flex flex-wrap items-end justify-between gap-4"><div><p class="text-xs font-bold uppercase tracking-[.15em] text-blue-700">Royaltech computers</p><h1 class="mt-1 font-display text-3xl font-extrabold text-[#142b50]">{{ $heading ?? ($search ? 'Search results' : 'Shop all products') }}</h1><p class="mt-2 text-sm text-slate-600">Computers and technology for work, learning and everyday life.</p></div><span class="text-sm text-slate-500">{{ $productsPage->total() }} {{ Str::plural('product', $productsPage->total()) }}</span></div></div></div>
+    <div class="mx-auto grid max-w-7xl gap-7 px-4 py-8 sm:px-6 lg:grid-cols-[230px_1fr] lg:px-8">
+        <aside class="h-fit rounded-xl border border-slate-200 bg-white p-5"><h2 class="font-display font-bold text-slate-900">Refine your search</h2><form action="{{ request()->url() }}" method="GET" class="mt-4 space-y-4">
+            @if ($search)<input type="hidden" name="q" value="{{ $search }}">@endif
+            <div><label for="category-filter" class="mb-1.5 block text-xs font-bold text-slate-700">Category</label><select id="category-filter" name="category" class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm"><option value="">All categories</option>@foreach ($categories as $category)<option value="{{ $category->slug }}" @selected(request('category') === $category->slug)>{{ $category->name }}</option>@endforeach</select></div>
+            <div><label for="brand-filter" class="mb-1.5 block text-xs font-bold text-slate-700">Brand</label><select id="brand-filter" name="brand" class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm"><option value="">All brands</option>@foreach ($brands as $brand)<option value="{{ $brand->slug }}" @selected(request('brand') === $brand->slug)>{{ $brand->name }}</option>@endforeach</select></div>
+            <div class="grid grid-cols-2 gap-2"><div><label for="min-price" class="mb-1.5 block text-xs font-bold text-slate-700">Min KES</label><input id="min-price" type="number" min="0" name="min_price" value="{{ request('min_price') }}" class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm"></div><div><label for="max-price" class="mb-1.5 block text-xs font-bold text-slate-700">Max KES</label><input id="max-price" type="number" min="0" name="max_price" value="{{ request('max_price') }}" class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm"></div></div>
+            <div><label for="sort-products" class="mb-1.5 block text-xs font-bold text-slate-700">Sort by</label><select id="sort-products" name="sort" class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm"><option value="relevance">Recommended</option><option value="price_asc" @selected(request('sort') === 'price_asc')>Price: low to high</option><option value="price_desc" @selected(request('sort') === 'price_desc')>Price: high to low</option><option value="newest" @selected(request('sort') === 'newest')>Newest</option></select></div>
+            <button type="submit" class="w-full rounded-lg bg-blue-800 px-4 py-3 text-sm font-bold text-white hover:bg-blue-900">Apply filters</button>
+            @if (request()->query())<a href="{{ request()->url() }}" class="block text-center text-xs font-semibold text-slate-500 hover:text-blue-800">Clear filters</a>@endif
+        </form></aside>
+        <section aria-label="Product results">
+            @if ($productsPage->isNotEmpty())
+                <div class="grid grid-cols-2 gap-3 sm:gap-5 md:grid-cols-3 xl:grid-cols-4">@foreach ($productsPage as $product)@include('store.partials.product-card', ['product' => $product])@endforeach</div>
+                <div class="mt-8">{{ $productsPage->links() }}</div>
+            @else
+                <div class="grid min-h-80 place-items-center rounded-xl border border-dashed border-slate-300 bg-slate-50 p-7 text-center"><div><div class="mx-auto grid h-14 w-14 place-items-center rounded-full bg-blue-100 text-2xl text-blue-900" aria-hidden="true">⌕</div><h2 class="mt-4 font-display text-lg font-bold text-slate-900">{{ $search ? 'No matching products found' : 'Our catalogue is being prepared' }}</h2><p class="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-600">{{ $search ? 'Try a different search or adjust your filters. Our team can also help you source the right equipment.' : 'For current product availability, speak directly with the Royaltech team.' }}</p><div class="mt-5 flex flex-wrap justify-center gap-3"><a href="{{ route('catalog.index') }}" class="rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-bold text-slate-800 hover:border-blue-700">Clear search</a><a href="tel:+254724404935" class="rounded-lg bg-blue-800 px-4 py-2.5 text-sm font-bold text-white hover:bg-blue-900">Call +254 724 404 935</a></div></div></div>
+            @endif
+        </section>
+    </div>
+@endsection

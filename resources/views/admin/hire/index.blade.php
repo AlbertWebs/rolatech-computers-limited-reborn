@@ -1,0 +1,6 @@
+@extends('admin.layout')
+@section('title', 'Hire requests')
+@section('content')
+<h1 class="font-display text-3xl font-extrabold text-[#142b50]">Equipment hire requests</h1>
+<div class="mt-6 overflow-x-auto rounded-xl border border-slate-200 bg-white"><table class="min-w-full divide-y divide-slate-100 text-left text-sm"><thead class="bg-slate-50 text-xs uppercase text-slate-500"><tr><th class="px-4 py-3">Request</th><th class="px-4 py-3">Customer</th><th class="px-4 py-3">Equipment</th><th class="px-4 py-3">Date</th><th class="px-4 py-3">Status</th></tr></thead><tbody class="divide-y divide-slate-100">@forelse($requests as $request)<tr><td class="px-4 py-3"><a class="font-bold text-blue-800" href="{{ route('admin.hire.show', $request) }}">#{{ $request->id }}</a></td><td class="px-4 py-3">{{ $request->name }}</td><td class="px-4 py-3">{{ ucfirst($request->equipment_type) }} × {{ $request->number_of_items }}</td><td class="px-4 py-3">{{ $request->pickup_date->format('d M Y') }}</td><td class="px-4 py-3">{{ ucfirst($request->status) }}</td></tr>@empty<tr><td colspan="5" class="px-4 py-8 text-center text-slate-500">No hire requests received.</td></tr>@endforelse</tbody></table></div><div class="mt-5">{{ $requests->links() }}</div>
+@endsection

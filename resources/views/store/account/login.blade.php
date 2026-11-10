@@ -1,0 +1,5 @@
+@extends('store.layout')
+@section('title', 'Sign in | Royaltech')
+@section('content')
+<section class="mx-auto max-w-md px-4 py-14 sm:px-6"><h1 class="font-display text-3xl font-extrabold text-[#142b50]">Sign in to your account</h1><form method="POST" action="{{ route('login') }}" class="mt-6 grid gap-4 rounded-xl border border-slate-200 bg-white p-6">@csrf<label class="grid gap-2 text-sm font-semibold">Email<input required type="email" name="email" value="{{ old('email') }}" autocomplete="email" class="rounded-lg border border-slate-300 px-3 py-3 font-normal"></label><label class="grid gap-2 text-sm font-semibold">Password<input required type="password" name="password" autocomplete="current-password" class="rounded-lg border border-slate-300 px-3 py-3 font-normal"></label><label class="flex items-center gap-2 text-sm"><input type="checkbox" name="remember" value="1"> Remember me</label><button class="rounded-lg bg-blue-800 px-5 py-3 font-bold text-white">Sign in</button><p class="text-sm text-slate-600">New to Royaltech? <a class="font-bold text-blue-800" href="{{ route('register') }}">Create an account</a></p></form></section>
+@endsection
